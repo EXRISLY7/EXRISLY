@@ -2,7 +2,8 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>EXRISLY</title>
+  <title>Utku</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     * {margin:0; padding:0; box-sizing:border-box;}
     body, html { height:100%; width:100%; font-family: Arial, sans-serif; color: white; overflow: hidden; }
@@ -41,16 +42,25 @@
       display:flex; 
       gap:20px; 
       background: rgba(0,0,0,0.5); 
-      padding:10px 20px; 
+      padding:10px 25px; 
       border-radius:30px; 
     }
     nav a { 
+      display: flex; 
+      align-items: center;
+      gap: 8px;
       color:white; 
       text-decoration:none; 
       font-weight:bold; 
+      font-size:16px;
       transition:0.3s; 
     }
-    nav a:hover { color:#ccc; }
+    nav a i {
+      font-size: 18px;
+    }
+    nav a:hover { 
+      color:#1DB954; /* Spotify yeşili gibi */
+    }
     footer { 
       position: fixed; 
       bottom:10px; 
@@ -67,17 +77,21 @@
 
   <!-- İçerik -->
   <div class="content">
-    <h1>EXRISLY</h1>
-    <p>Basit, şık bir tanıtım sayfası. Discord ve Instagram bağlantıları aşağıda.</p>
+    <h1>Utku</h1>
+    <p>Benim dünyama hoş geldiniz 🚀</p>
   </div>
 
   <!-- Sosyal bağlantılar -->
   <nav>
-    <a href="https://discord.gg/your-invite" target="_blank">Discord</a>
-    <a href="https://instagram.com/your-handle" target="_blank">Instagram</a>
+    <a href="https://www.instagram.com/ali.utku.1/" target="_blank">
+      <i class="fab fa-instagram"></i> Instagram
+    </a>
+    <a href="https://open.spotify.com/user/xrqif64yrbp39v2i032cnhtzy" target="_blank">
+      <i class="fab fa-spotify"></i> Spotify
+    </a>
   </nav>
 
   <!-- Footer -->
-  <footer>© 2025 EXRISLY</footer>
+  <footer>© 2025 Utku</footer>
 </body>
 </html>
