@@ -19,7 +19,7 @@
       width:100%; height:100%;
       object-fit: cover;
       z-index:-2;
-      display: none; /* ilk başta video görünmesin */
+      display: none;
     }
 
     .overlay {
@@ -28,7 +28,7 @@
       width:100%; height:100%;
       background: rgba(0,0,0,0.45);
       z-index:-1;
-      display: none; /* ilk başta görünmesin */
+      display: none;
     }
 
     /* 📌 İçerik */
@@ -40,14 +40,18 @@
       align-items:center;
       text-align:center;
       padding:20px;
-      transition: opacity 0.5s;
-      display: none; /* ilk başta gizli */
+      display: none;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
     }
 
     h1 {
       font-size:64px;
       font-weight:bold;
       margin-bottom:20px;
+      opacity:0;
+      animation: fadeIn 2s forwards;
+      animation-delay: 0.5s;
     }
 
     nav {
@@ -56,43 +60,54 @@
       background: rgba(0,0,0,0.5);
       padding:10px 20px;
       border-radius:30px;
-      transition: opacity 0.5s;
+      opacity:0;
+      animation: fadeIn 2s forwards;
+      animation-delay: 1s;
     }
 
     nav a {
       color:white;
       text-decoration:none;
       font-weight:bold;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:16px;
       transition:0.3s;
+    }
+    nav a img {
+      width:18px;
+      height:18px;
     }
     nav a:hover { color:#ccc; }
 
-    /* 🔇 Ses butonu */
+    /* 🔇 Ses butonu (küçültülmüş) */
     #muteBtn {
       position: fixed;
       bottom: 20px;
       left: 20px;
-      width: 60px;
-      height: 60px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       border: none;
       background: rgba(0,0,0,0.6);
       color: white;
-      font-size: 28px;
+      font-size: 18px;
       cursor: pointer;
       transition: opacity 0.5s, background 0.3s;
-      display: none; /* ilk başta gizli */
+      display: none;
+      opacity:0;
+      animation: fadeIn 2s forwards;
+      animation-delay: 1.5s;
     }
-    #muteBtn:hover {
-      background: rgba(255,255,255,0.3);
-    }
+    #muteBtn:hover { background: rgba(255,255,255,0.3); }
 
     /* 🚪 Giriş ekranı */
     .intro {
       position: fixed;
       top:0; left:0;
       width:100%; height:100%;
-      background: rgba(128,128,128,1); /* tam gri, video yok */
+      background: rgba(128,128,128,1);
       display:flex;
       justify-content:center;
       align-items:center;
@@ -104,7 +119,7 @@
       font-size:32px;
       font-weight:bold;
       color:white;
-      background: rgba(255,255,255,0.15); /* hafif şeffaf buton */
+      background: rgba(255,255,255,0.15);
       border: 2px solid rgba(255,255,255,0.6);
       border-radius: 20px;
       cursor: pointer;
@@ -114,8 +129,14 @@
       background: rgba(255,255,255,0.3);
     }
 
+    /* FadeIn animasyonu */
+    @keyframes fadeIn {
+      from {opacity:0; transform: translateY(20px);}
+      to {opacity:1; transform: translateY(0);}
+    }
+
     /* ⏳ Gizlenme */
-    .hidden { opacity:0; pointer-events:none; }
+    .hidden { opacity:0 !important; pointer-events:none; transition: opacity 0.5s; }
   </style>
 </head>
 <body>
@@ -128,8 +149,12 @@
   <div class="content" id="content">
     <h1>Utku</h1>
     <nav>
-      <a href="https://www.instagram.com/ali.utku.1/" target="_blank">Instagram</a>
-      <a href="https://open.spotify.com/user/xrqif64yrbp39v2i032cnhtzy" target="_blank">Spotify</a>
+      <a href="https://www.instagram.com/ali.utku.1/" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"> Instagram
+      </a>
+      <a href="https://open.spotify.com/user/xrqif64yrbp39v2i032cnhtzy" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111624.png"> Spotify
+      </a>
     </nav>
   </div>
 
@@ -163,6 +188,7 @@
       muteBtn.style.display = "block";   // ses butonu görünsün
       bgVideo.muted = false;             // sesi aç
       bgVideo.play();
+      showUI(); // UI'yi başlat
     });
 
     // 🔇 Ses aç/kapa
@@ -186,8 +212,6 @@
 
     document.addEventListener("mousemove", showUI);
     document.addEventListener("keydown", showUI);
-
-    showUI(); // başlat
   </script>
 </body>
 </html>
