@@ -2,96 +2,192 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Utku</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>EXRISLY</title>
   <style>
     * {margin:0; padding:0; box-sizing:border-box;}
-    body, html { height:100%; width:100%; font-family: Arial, sans-serif; color: white; overflow: hidden; }
-    
-    video.bg { 
-      position: fixed; 
-      top:0; left:0; 
-      width:100%; 
-      height:100%; 
-      object-fit: cover; 
-      z-index:-2; 
+    body, html {
+      height:100%; width:100%;
+      font-family: Arial, sans-serif;
+      color: white;
+      overflow: hidden;
     }
-    .overlay { 
-      position: fixed; 
-      top:0; left:0; 
-      width:100%; height:100%; 
-      background: rgba(0,0,0,0.45); 
-      z-index:-1; 
+
+    /* 🎥 Arka plan video */
+    video.bg {
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      object-fit: cover;
+      z-index:-2;
+      display: none; /* ilk başta video görünmesin */
     }
-    .content { 
-      height:100%; 
-      display:flex; 
-      flex-direction:column; 
-      justify-content:center; 
-      align-items:center; 
-      text-align:center; 
-      padding:20px; 
+
+    .overlay {
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: rgba(0,0,0,0.45);
+      z-index:-1;
+      display: none; /* ilk başta görünmesin */
     }
-    h1 { font-size:64px; font-weight:bold; margin-bottom:20px; }
-    p { font-size:18px; opacity:0.9; max-width:600px; }
-    nav { 
-      position: fixed; 
-      bottom:30px; 
-      left:50%; 
-      transform:translateX(-50%); 
-      display:flex; 
-      gap:20px; 
-      background: rgba(0,0,0,0.5); 
-      padding:10px 25px; 
-      border-radius:30px; 
+
+    /* 📌 İçerik */
+    .content {
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:20px;
+      transition: opacity 0.5s;
+      display: none; /* ilk başta gizli */
     }
-    nav a { 
-      display: flex; 
-      align-items: center;
-      gap: 8px;
-      color:white; 
-      text-decoration:none; 
-      font-weight:bold; 
-      font-size:16px;
-      transition:0.3s; 
+
+    h1 {
+      font-size:64px;
+      font-weight:bold;
+      margin-bottom:20px;
     }
-    nav a i {
-      font-size: 18px;
+
+    nav {
+      display:flex;
+      gap:20px;
+      background: rgba(0,0,0,0.5);
+      padding:10px 20px;
+      border-radius:30px;
+      transition: opacity 0.5s;
     }
-    nav a:hover { 
-      color:#1DB954; /* Spotify yeşili gibi */
+
+    nav a {
+      color:white;
+      text-decoration:none;
+      font-weight:bold;
+      transition:0.3s;
     }
-    footer { 
-      position: fixed; 
-      bottom:10px; 
-      left:20px; 
-      font-size:12px; 
-      opacity:0.7; 
+    nav a:hover { color:#ccc; }
+
+    /* 🔇 Ses butonu */
+    #muteBtn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      transition: opacity 0.5s, background 0.3s;
+      display: none; /* ilk başta gizli */
     }
+    #muteBtn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* 🚪 Giriş ekranı */
+    .intro {
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: rgba(128,128,128,1); /* tam gri, video yok */
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      z-index:100;
+    }
+
+    .intro button {
+      padding:20px 50px;
+      font-size:32px;
+      font-weight:bold;
+      color:white;
+      background: rgba(255,255,255,0.15); /* hafif şeffaf buton */
+      border: 2px solid rgba(255,255,255,0.6);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .intro button:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* ⏳ Gizlenme */
+    .hidden { opacity:0; pointer-events:none; }
   </style>
 </head>
 <body>
-  <!-- Arka plan video -->
-  <video class="bg" src="bg.mp4" autoplay muted loop playsinline></video>
+
+  <!-- 🎥 Video -->
+  <video id="bgVideo" class="bg" autoplay muted loop></video>
   <div class="overlay"></div>
 
-  <!-- İçerik -->
-  <div class="content">
+  <!-- 📌 İçerik -->
+  <div class="content" id="content">
     <h1>Utku</h1>
-    <p>Benim dünyama hoş geldiniz 🚀</p>
+    <nav>
+      <a href="https://www.instagram.com/ali.utku.1/" target="_blank">Instagram</a>
+      <a href="https://open.spotify.com/user/xrqif64yrbp39v2i032cnhtzy" target="_blank">Spotify</a>
+    </nav>
   </div>
 
-  <!-- Sosyal bağlantılar -->
-  <nav>
-    <a href="https://www.instagram.com/ali.utku.1/" target="_blank">
-      <i class="fab fa-instagram"></i> Instagram
-    </a>
-    <a href="https://open.spotify.com/user/xrqif64yrbp39v2i032cnhtzy" target="_blank">
-      <i class="fab fa-spotify"></i> Spotify
-    </a>
-  </nav>
+  <!-- 🔇 Ses butonu -->
+  <button id="muteBtn">🔊</button>
 
-  <!-- Footer -->
-  <footer>© 2025 Utku</footer>
+  <!-- 🚪 Giriş ekranı -->
+  <div class="intro" id="intro">
+    <button id="enterBtn">UTKU</button>
+  </div>
+
+  <script>
+    // 🎥 Videolar
+    const videos = ["bg1.mp4", "bg2.mp4", "bg3.mp4"];
+    const chosenVideo = videos[Math.floor(Math.random() * videos.length)];
+    const bgVideo = document.getElementById("bgVideo");
+    bgVideo.src = chosenVideo;
+
+    const intro = document.getElementById("intro");
+    const enterBtn = document.getElementById("enterBtn");
+    const muteBtn = document.getElementById("muteBtn");
+    const content = document.getElementById("content");
+    const overlay = document.querySelector(".overlay");
+
+    // 🚪 Giriş ekranı → video başlat
+    enterBtn.addEventListener("click", () => {
+      intro.style.display = "none";      // intro kapansın
+      bgVideo.style.display = "block";   // video görünsün
+      overlay.style.display = "block";   // overlay görünsün
+      content.style.display = "flex";    // içerik açılsın
+      muteBtn.style.display = "block";   // ses butonu görünsün
+      bgVideo.muted = false;             // sesi aç
+      bgVideo.play();
+    });
+
+    // 🔇 Ses aç/kapa
+    muteBtn.addEventListener("click", () => {
+      bgVideo.muted = !bgVideo.muted;
+      muteBtn.textContent = bgVideo.muted ? "🔇" : "🔊";
+    });
+
+    // ⏳ 3 saniye inaktif → gizle
+    let timeout;
+    function hideUI() {
+      content.classList.add("hidden");
+      muteBtn.classList.add("hidden");
+    }
+    function showUI() {
+      content.classList.remove("hidden");
+      muteBtn.classList.remove("hidden");
+      clearTimeout(timeout);
+      timeout = setTimeout(hideUI, 3000); // 3 saniye
+    }
+
+    document.addEventListener("mousemove", showUI);
+    document.addEventListener("keydown", showUI);
+
+    showUI(); // başlat
+  </script>
 </body>
 </html>
